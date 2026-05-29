@@ -13,12 +13,12 @@ const links = [
 ];
 
 const socials = [
-  { icon: Linkedin, url: 'https://linkedin.com', label: 'LinkedIn', color: '#0a66c2' },
-  { icon: Twitter, url: 'https://twitter.com', label: 'X/Twitter', color: '#000000' },
-  { icon: Youtube, url: 'https://youtube.com', label: 'YouTube', color: '#ff0000' },
-  { icon: Send, url: 'https://telegram.com', label: 'Telegram', color: '#0088cc' },
-  { icon: Facebook, url: 'https://facebook.com', label: 'Facebook', color: '#1877f2' },
-  { icon: Music, url: 'https://tiktok.com', label: 'TikTok', color: '#000000' },
+  { icon: Linkedin, url: 'https://linkedin.com/company/businessfraudmri', label: 'LinkedIn', color: '#0a66c2' },
+  { icon: Twitter, url: 'https://twitter.com/BusinesFraudMRI', label: 'X/Twitter', color: '#000000' },
+  { icon: Youtube, url: 'https://youtube.com/@BusinessFraudMRI', label: 'YouTube', color: '#ff0000' },
+  { icon: Send, url: 'https://t.me/businessfraudmri', label: 'Telegram', color: '#0088cc' },
+  { icon: Facebook, url: 'https://facebook.com/businessfraudmri', label: 'Facebook', color: '#1877f2' },
+  { icon: Music, url: 'https://tiktok.com/@businessfraudmri', label: 'TikTok', color: '#000000' },
 ];
 
 export default function Footer() {

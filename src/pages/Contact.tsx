@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { setSEO } from '../utils/seo';
-import { Mail, Phone, Linkedin, Twitter } from 'lucide-react';
+import { Mail, Phone, Linkedin, Twitter, Youtube, Send, Facebook, Music } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 export default function Contact() {
   useEffect(() => {
@@ -18,17 +19,39 @@ export default function Contact() {
     subject: '',
     message: '',
   });
+  const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Thank you for reaching out! We\'ll get back to you soon.');
-    setFormData({ name: '', email: '', company: '', phone: '', subject: '', message: '' });
+    setIsLoading(true);
+
+    try {
+      const { error } = await supabase.functions.invoke('contact-form', {
+        body: formData,
+      });
+
+      if (error) {
+        console.error('Error submitting form:', error);
+        alert('Failed to send message. Please try again.');
+        return;
+      }
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', company: '', phone: '', subject: '', message: '' });
+
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('An error occurred. Please try again or email us directly.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -51,6 +74,17 @@ export default function Contact() {
             <div className="lg:col-span-2">
               <div className="bg-gray-50 rounded-lg p-8 border border-gray-200">
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Send us a Message</h2>
+
+                {submitted && (
+                  <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
+                    <div className="text-green-600 font-bold text-xl">✓</div>
+                    <div>
+                      <h3 className="font-bold text-green-800">Message Sent Successfully!</h3>
+                      <p className="text-green-700 text-sm">Thank you for reaching out. We'll get back to you within 24 hours.</p>
+                    </div>
+                  </div>
+                )}
+
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -137,9 +171,14 @@ export default function Contact() {
 
                   <button
                     type="submit"
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded transition-colors tracking-wider uppercase"
+                    disabled={isLoading}
+                    className={`w-full font-bold py-3 rounded transition-colors tracking-wider uppercase ${
+                      isLoading
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-red-600 hover:bg-red-700 text-white'
+                    }`}
                   >
-                    Send Message
+                    {isLoading ? 'Sending...' : 'Send Message'}
                   </button>
                 </form>
               </div>
@@ -156,8 +195,8 @@ export default function Contact() {
                     </div>
                     <div>
                       <h3 className="font-bold text-gray-800 mb-1">Email</h3>
-                      <a href="mailto:contact@businessfraudmri.com" className="text-gray-600 hover:text-red-600 transition-colors">
-                        contact@businessfraudmri.com
+                      <a href="mailto:info@businessfraudmri.com" className="text-gray-600 hover:text-red-600 transition-colors">
+                        info@businessfraudmri.com
                       </a>
                     </div>
                   </div>
@@ -171,8 +210,8 @@ export default function Contact() {
                     </div>
                     <div>
                       <h3 className="font-bold text-gray-800 mb-1">Phone</h3>
-                      <a href="tel:+1234567890" className="text-gray-600 hover:text-blue-600 transition-colors">
-                        +1 (234) 567-8900
+                      <a href="tel:+251799103334" className="text-gray-600 hover:text-blue-600 transition-colors">
+                        +251 799 103 334
                       </a>
                     </div>
                   </div>
@@ -181,9 +220,9 @@ export default function Contact() {
                 {/* Social */}
                 <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
                   <h3 className="font-bold text-gray-800 mb-4">Connect With Us</h3>
-                  <div className="flex gap-3">
+                  <div className="flex flex-wrap gap-3">
                     <a
-                      href="https://linkedin.com"
+                      href="https://linkedin.com/company/businessfraudmri"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-[#0a66c2] hover:opacity-90 text-white p-3 rounded-lg transition-opacity"
@@ -192,13 +231,49 @@ export default function Contact() {
                       <Linkedin className="w-5 h-5" />
                     </a>
                     <a
-                      href="https://twitter.com"
+                      href="https://twitter.com/BusinesFraudMRI"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-gray-800 hover:opacity-90 text-white p-3 rounded-lg transition-opacity"
                       title="X/Twitter"
                     >
                       <Twitter className="w-5 h-5" />
+                    </a>
+                    <a
+                      href="https://youtube.com/@BusinessFraudMRI"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-red-600 hover:opacity-90 text-white p-3 rounded-lg transition-opacity"
+                      title="YouTube"
+                    >
+                      <Youtube className="w-5 h-5" />
+                    </a>
+                    <a
+                      href="https://t.me/businessfraudmri"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-blue-500 hover:opacity-90 text-white p-3 rounded-lg transition-opacity"
+                      title="Telegram"
+                    >
+                      <Send className="w-5 h-5" />
+                    </a>
+                    <a
+                      href="https://facebook.com/businessfraudmri"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-blue-600 hover:opacity-90 text-white p-3 rounded-lg transition-opacity"
+                      title="Facebook"
+                    >
+                      <Facebook className="w-5 h-5" />
+                    </a>
+                    <a
+                      href="https://tiktok.com/@businessfraudmri"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-black hover:opacity-90 text-white p-3 rounded-lg transition-opacity"
+                      title="TikTok"
+                    >
+                      <Music className="w-5 h-5" />
                     </a>
                   </div>
                 </div>

@@ -4,11 +4,12 @@ export default function Hero() {
   return (
     <section className="bg-[#0a1628] text-white relative overflow-hidden">
       <div
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-15"
         style={{
-          backgroundImage: `url('https://images.pexels.com/photos/5380664/pexels-photo-5380664.jpeg?auto=compress&cs=tinysrgb&w=1600')`,
+          backgroundImage: `url('https://images.pexels.com/photos/8728382/pexels-photo-8728382.jpeg?auto=compress&cs=tinysrgb&w=1600')`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center right',
+          backgroundRepeat: 'no-repeat',
         }}
       />
       <div className="relative max-w-7xl mx-auto px-4 py-16 lg:py-20 flex flex-col lg:flex-row items-center gap-12">

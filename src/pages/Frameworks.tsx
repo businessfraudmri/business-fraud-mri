@@ -56,19 +56,31 @@ export default function Frameworks() {
 
       {/* Framework visualization */}
       <section className="py-16">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="space-y-3 mb-12">
-            {frameworkLayers.map((layer, i) => (
-              <div key={i} className="space-y-2">
-                <div
-                  className="flex items-center justify-between p-4 rounded text-white font-bold hover:opacity-90 transition-opacity cursor-pointer"
-                  style={{ backgroundColor: layer.color }}
-                >
-                  <span>{layer.label}</span>
-                  <span className="text-xs">Layer {i + 1}</span>
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-12">
+            {/* Framework diagram */}
+            <div className="flex items-center justify-center">
+              <img
+                src="https://images.pexels.com/photos/8728382/pexels-photo-8728382.jpeg?auto=compress&cs=tinysrgb&w=500"
+                alt="Business Fraud MRI Framework"
+                className="rounded-lg shadow-lg w-full"
+              />
+            </div>
+
+            {/* Layers list */}
+            <div className="space-y-3">
+              {frameworkLayers.map((layer, i) => (
+                <div key={i} className="space-y-2">
+                  <div
+                    className="flex items-center justify-between p-4 rounded text-white font-bold hover:opacity-90 transition-opacity cursor-pointer"
+                    style={{ backgroundColor: layer.color }}
+                  >
+                    <span>{layer.label}</span>
+                    <span className="text-xs">Layer {i + 1}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </section>
